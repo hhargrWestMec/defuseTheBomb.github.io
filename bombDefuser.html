@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Defuse the Bomb!</title>
+    <style>
+        * {
+            margin: 0px;
+        }
+        @font-face{
+            font-family:'digital-number';
+            src: url('digital-7.ttf');
+        }
+        .digiNum {
+            font-family: 'digital-number';
+        }
+
+        #container {
+            position: absolute;
+            height: 100vh;
+            width: 100vw;
+            background-color: #303133;
+        }
+        #clock {
+            position: absolute;
+            height: 25vh;
+            width: 50vw;
+            margin-left: 25vw;
+            margin-top: 5vh;
+            background-color: #46474a;
+            border: 1vh solid black;
+            border-radius: 50px;
+            box-shadow: 1px 1px 5px darkgray;
+        }
+
+        #clock:hover {
+            background-color: #2f2f31;
+            text-shadow: 1px 1px 10px black;
+        }
+
+        #timerDisplay {
+            font-family: 'digital-number';
+            text-align: center;
+            font-size: 25vh;
+            color: #d91414;
+            text-shadow: 1px 1px 10px black;
+        }
+
+        #timerDisplay:hover {
+            color: #ab0f0f;
+        }
+
+        .numMain {
+            height: 50vh;
+            width: 15vw;
+            background-color: blue;
+            position: absolute;
+            margin-top: 38vh;
+            background-color: #46474a;
+            border: 1vh solid black;
+            border-radius: 50px;
+            box-shadow: 1px 1px 5px darkgray;
+            font-family: 'digital-number';
+            text-align: center;
+            font-size: 15vw;
+            color: #a8a8a8;
+
+        }
+
+        #numOne {
+            margin-left: 11.25vw;
+        }
+
+        #numTwo {
+            margin-left: 31.25vw;
+        }
+
+        #numThree {
+            margin-left: 51.25vw;
+        }
+
+        #numFour {
+            margin-left: 73.75vw;
+        }
+
+        .guessNum {
+            font-family: 'digital-number';
+            text-align: center;
+            font-size: 15vw;
+            margin-top: 10vh;
+            color: #a8a8a8;
+        }
+
+        #legend {
+            position: absolute;
+            margin-top: 10vh;
+            margin-left: 1vw;
+            width: 20vw;
+            height: 15vh;
+            background-color: #46474a;
+            border: 1vh solid black;
+            border-radius: 50px;
+            box-shadow: 1px 1px 5px darkgray;
+            font-family: 'digital-number';
+            text-align: center;
+            font-size: 2vw;
+        }
+        
+        #legend:hover {
+            background-color: #313234;
+        }
+        #redText {
+            color: #d91414;
+            margin-top: 1.5vh;
+        }
+        #greenText {
+            color: #20de07;
+        }
+        #yellowText {
+            color: yellow;
+        }
+        #password {
+            position: absolute;
+            margin-top: 10vh;
+            margin-left: 78vw;
+            width: 20vw;
+            height: 15vh;
+            background-color: #46474a;
+            border: 1vh solid black;
+            border-radius: 50px;
+            box-shadow: 1px 1px 5px darkgray;
+            font-family: 'digital-number';
+            text-align: center;
+            font-size: 3vw;
+            color: #20de07;
+        }
+        #codeDisplay {
+            margin-top: 4.5vh;
+        }
+
+
+    </style>
+</head>
+<body onload="generateNumbers();">
+    <div id="container">
+        <a href="bombIns.html">
+            <div id="legend">
+                <p id="redText"> RED = too high </p>
+                <p id="greenText"> Green = CORRECT</p>
+                <p id="yellowText"> YELOW = too low</p>
+            </div>
+        </a>
+
+        <div id="clock">
+            <h1 id="timerDisplay"> start </h1>
+        </div>
+
+        <div id="password">
+            <p id="codeDisplay"> ??*??*??*??</p>
+        </div>
+
+            <input type="text" id="numOne" class="numMain" maxlength="2" placeholder="?">
+
+            </input>
+
+            <input type="text" id="numTwo" class="numMain" maxlength="2" placeholder="?">
+
+            </input>
+
+            <input type="text" id="numThree" class="numMain" maxlength="2" placeholder="?">
+
+            </input>
+
+            <input type="text" id="numFour" class="numMain" maxlength="2" placeholder="?">
+
+            </input>
+            
+
+
+    </div>
+
+    <script>
+        
+        //storage for random numbers
+        let numberOne;
+        let numberTwo;
+        let numberThree;
+        let numberFour;
+
+        //storage for win bools
+        let numOneCorrect = false;
+        let numTwoCorrect = false;
+        let numThreeCorrect = false;
+        let numFourCorrect = false;
+
+
+        //storage for guesses
+        let guessNumberOne;
+        let guessNumberTwo;
+        let guessNumberThree;
+        let guessNumberFour;
+
+        //background color storage
+        const backgroundOne = document.getElementById('numOne');
+        const backgroundTwo = document.getElementById('numTwo');
+        const backgroundThree = document.getElementById('numThree');
+        const backgroundFour = document.getElementById('numFour');
+
+        //storage for code lock
+        let codePartOne = '??'
+        let codePartTwo = '??'
+        let codePartThree = '??'
+        let codePartFour = '??'
+        let displayCode = codePartOne + '*' + codePartTwo + '*' + codePartThree + '*' + codePartFour;
+        const displayCodeLocation = document.getElementById('codeDisplay');
+
+        //timer storage and controls
+        let timerValue = 59;
+        let playerWin = false;
+        
+        document.getElementById('timerDisplay').addEventListener('click', startGame);
+
+        function startGame () {
+            setInterval(changeTime, 1000);
+            document.getElementById('timerDisplay').removeEventListener('click', startGame);
+            
+                //enter key event listener
+                window.addEventListener('keyup', (event) => {
+                    var keyPressed = event.key;
+                    if ( keyPressed === 'Enter') {
+                        submitGuess();
+                    }
+
+                }, false)
+
+        }
+
+        //changes the timer
+        function changeTime () {
+            if ( timerValue !=  0 ) {
+                if ( playerWin == false ) {
+                document.getElementById('timerDisplay').innerHTML = timerValue;
+                timerValue--;
+                }
+            } else {
+                document.getElementById('timerDisplay').innerHTML = 'You lose';
+                document.getElementById('timerDisplay').addEventListener('click', resetGame);
+            }
+        }
+
+        //reset game function
+        function resetGame () {
+            window.location.reload();
+        }
+
+
+
+        //generates 4 random numbers
+        function generateNumbers () {
+            numberOne = Math.round((Math.random() * 100) - 1);
+            numberTwo = Math.round((Math.random() * 100) - 1);
+            numberThree = Math.round((Math.random() * 100) - 1);
+            numberFour = Math.round((Math.random() * 100) - 1);
+
+            //debugging
+            console.log('Number One is ' + numberOne + '. Number Two is ' + numberTwo + '. Number Three is ' + numberThree + '. Number Four is ' + numberFour + '.')
+        }
+
+        //submits user's number guesses
+        function submitGuess () {
+            guessNumberOne = document.getElementById('numOne').value;
+            guessNumberTwo = document.getElementById('numTwo').value;
+            guessNumberThree = document.getElementById('numThree').value; 
+            guessNumberFour = document.getElementById('numFour').value;
+
+            checkGuesses();
+
+            //debugging
+            /*
+            console.log(guessNumberOne);
+            console.log(guessNumberTwo);
+            console.log(guessNumberThree);
+            console.log(guessNumberFour);
+            */
+        }
+
+        //checks if the user's guesses are correct
+        function checkGuesses () {
+
+            //checks number one
+            if ( numberOne > guessNumberOne ) {
+                //console.log('Guess one is too low');
+                backgroundOne.style.backgroundColor = 'yellow';
+
+            } else if ( numberOne < guessNumberOne ) {
+                //console.log('Guess one is too high');
+                backgroundOne.style.backgroundColor = '#d91414';
+            } else {
+                //console.log('Guess one is correct');
+                backgroundOne.style.backgroundColor = '#20de07';
+                codePartOne = numberOne;
+                displayCode = codePartOne + '*' + codePartTwo + '*' + codePartThree + '*' + codePartFour;
+                numOneCorrect = true;
+            }
+
+            //checks number two
+            if ( numberTwo > guessNumberTwo ) {
+                //console.log('Guess two is too low');
+                backgroundTwo.style.backgroundColor = 'yellow';
+
+            } else if ( numberTwo < guessNumberTwo ) {
+                //console.log('Guess two is too high');
+                backgroundTwo.style.backgroundColor = '#d91414';
+
+            } else {
+                //console.log('Guess two is correct');
+                backgroundTwo.style.backgroundColor = '#20de07';
+                codePartTwo = numberTwo;
+                displayCode = codePartOne + '*' + codePartTwo + '*' + codePartThree + '*' + codePartFour;
+                numTwoCorrect = true;
+
+            }
+
+            //checks number three
+            if ( numberThree > guessNumberThree ) {
+                //console.log('Guess three is too low');
+                backgroundThree.style.backgroundColor = 'yellow';
+                
+            } else if ( numberThree < guessNumberThree ) {
+                //console.log('Guess three is too high');
+                backgroundThree.style.backgroundColor = '#d91414';
+
+            } else {
+                //console.log('Guess three is correct');
+                backgroundThree.style.backgroundColor = '#20de07';
+                codePartThree = numberThree;
+                displayCode = codePartOne + '*' + codePartTwo + '*' + codePartThree + '*' + codePartFour;
+                numThreeCorrect = true;
+
+            }
+
+            //checks number four
+            if ( numberFour > guessNumberFour ) {
+                //console.log('Guess four is too low');
+                backgroundFour.style.backgroundColor = 'yellow';
+
+            } else if ( numberFour < guessNumberFour ) {
+                //console.log('Guess four is too high');
+                backgroundFour.style.backgroundColor = '#d91414';
+                codePartThree = numberThree;
+
+            } else {
+                //console.log('Guess four is correct');
+                backgroundFour.style.backgroundColor = '#20de07';
+                codePartFour = numberFour;
+                displayCode = codePartOne + '*' + codePartTwo + '*' + codePartThree + '*' + codePartFour;
+                numFourCorrect = true;
+
+            }
+            displayCodeLocation.innerHTML = displayCode;
+            checkWin();
+        }
+
+        //checks if the user has won the game
+        function checkWin () {
+            if ( numOneCorrect == true && numTwoCorrect == true && numThreeCorrect == true && numFourCorrect == true ) {
+                //console.log('Player wins!')
+                playerWin = true;
+                document.getElementById('timerDisplay').innerHTML = 'You Win'
+                document.getElementById('timerDisplay').addEventListener('click', resetGame);
+                console.log('You won with ' + timerValue + ' seconds remaining!');
+                
+            } else {
+                //console.log('Player has not won yet')
+            }
+
+        }
+    </script>
+</body>
+</html>

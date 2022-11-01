@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Defuse the Bomb!</title>
+    <style>
+        * {
+            padding: 0px;
+            margin: 0px;
+        }
+
+        body {
+            background-color: #303133;
+
+        }
+
+        #header {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            text-align: center;
+            font-size: 7vh;
+            margin-top: 10vh;
+            color: #d91414;
+            text-shadow: 1px 1px white;
+        }
+
+        #paraText {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            text-align: center;
+            font-size: 3vh;
+            height: 50vh;
+            width: 60vw;
+            margin-left: 20vw;
+            margin-top: 5vh;
+            line-height: 5vh;
+            color: #a8a8a8;
+        }
+
+        #startButton {
+            text-align: center;
+            padding: 2vh;
+            font-size: 4vh;
+            width: 15vw;
+            margin-left: 42.5vw;
+            margin-top: 10vh;
+            background-color: #d91414;
+            color: white; 
+            
+        }
+
+        #startButton:hover {
+            background-color: #a81111;
+        }
+
+
+
+    </style>
+</head>
+<body>
+    <h1 id="header">
+        Welcome to the Defuse the Bomb Game!
+    </h1>
+
+
+    <p id="paraText">
+        The goal is to guess all 4 numbers before the 60 second timer runs out. The numbers range from 0 to 99. To actually play the game, hit start and you will be brought to the game page. Once again, hit start and the timer will begin counting down after one second. You will be able to start guessing once you hit ‘start’. The background of the numbers will change color based on your guesses accuracy. The 'enter' key is used to submit your guess, and the 'tab' or 'shift' + 'tab' keys can be used to move through the number inputs. When a number is entered correctly, it will be added to the final code in the top right. Your background color legend is located on the top left hand side and can be clicked to return back to this page. Your remaining time will be logged in the console. Good luck!
+    </p>
+    
+    <a href="bombDefuser.html">
+    <button id="startButton">
+        Start Game!
+    </button>
+    </a>
+</body>
+</html>
