@@ -145,7 +145,7 @@
 </head>
 <body onload="generateNumbers();">
     <div id="container">
-        <a href="index.html">
+        <a href="bombIns.html">
             <div id="legend">
                 <p id="redText"> RED = too high </p>
                 <p id="greenText"> Green = CORRECT</p>
@@ -161,19 +161,19 @@
             <p id="codeDisplay"> ??*??*??*??</p>
         </div>
 
-            <input type="text" id="numOne" class="numMain" maxlength="2" placeholder="?">
+            <input type="number" id="numOne" class="numMain" maxlength="2" placeholder="?">
 
             </input>
 
-            <input type="text" id="numTwo" class="numMain" maxlength="2" placeholder="?">
+            <input type="number" id="numTwo" class="numMain" maxlength="2" placeholder="?">
 
             </input>
 
-            <input type="text" id="numThree" class="numMain" maxlength="2" placeholder="?">
+            <input type="number" id="numThree" class="numMain" maxlength="2" placeholder="?">
 
             </input>
 
-            <input type="text" id="numFour" class="numMain" maxlength="2" placeholder="?">
+            <input type="number" id="numFour" class="numMain" maxlength="2" placeholder="?">
 
             </input>
             
@@ -284,6 +284,31 @@
             console.log(guessNumberThree);
             console.log(guessNumberFour);
             */
+        }
+
+        //checks for extra digits, limits user inputs to be only 2
+        document.getElementById('numOne').oninput = function () {
+            if (this.value.length > 2) {
+            this.value = this.value.slice(0,2); 
+            }
+        }
+
+        document.getElementById('numTwo').oninput = function () {
+            if (this.value.length > 2) {
+            this.value = this.value.slice(0,2); 
+            }
+        }
+
+        document.getElementById('numThree').oninput = function () {
+            if (this.value.length > 2) {
+            this.value = this.value.slice(0,2); 
+            }
+        }
+        
+        document.getElementById('numFour').oninput = function () {
+            if (this.value.length > 2) {
+            this.value = this.value.slice(0,2); 
+            }
         }
 
         //checks if the user's guesses are correct
