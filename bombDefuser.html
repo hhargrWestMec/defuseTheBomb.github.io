@@ -161,19 +161,19 @@
             <p id="codeDisplay"> ??*??*??*??</p>
         </div>
 
-            <input type="number" id="numOne" class="numMain" maxlength="2" placeholder="?">
+            <input type="number" id="numOne" class="numMain" placeholder="?" min="0" max="99">
 
             </input>
 
-            <input type="number" id="numTwo" class="numMain" maxlength="2" placeholder="?">
+            <input type="number" id="numTwo" class="numMain" placeholder="?" min="0" max="99">
 
             </input>
 
-            <input type="number" id="numThree" class="numMain" maxlength="2" placeholder="?">
+            <input type="number" id="numThree" class="numMain" placeholder="?" min="0" max="99">
 
             </input>
 
-            <input type="number" id="numFour" class="numMain" maxlength="2" placeholder="?">
+            <input type="number" id="numFour" class="numMain" placeholder="?" min="0" max="99">
 
             </input>
             
@@ -286,29 +286,37 @@
             */
         }
 
-        //checks for extra digits, limits user inputs to be only 2
+
         document.getElementById('numOne').oninput = function () {
             if (this.value.length > 2) {
             this.value = this.value.slice(0,2); 
             }
-        }
+
+            this.value = this.value.replace('-', '');
+        }   
 
         document.getElementById('numTwo').oninput = function () {
             if (this.value.length > 2) {
             this.value = this.value.slice(0,2); 
             }
+
+            this.value = this.value.replace('-', '');
         }
 
         document.getElementById('numThree').oninput = function () {
             if (this.value.length > 2) {
             this.value = this.value.slice(0,2); 
             }
+
+            this.value = this.value.replace('-', '');
         }
-        
+
         document.getElementById('numFour').oninput = function () {
             if (this.value.length > 2) {
             this.value = this.value.slice(0,2); 
             }
+
+            this.value = this.value.replace('-', '');
         }
 
         //checks if the user's guesses are correct
